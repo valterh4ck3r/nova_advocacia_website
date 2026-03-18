@@ -23,6 +23,25 @@
     --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--brand-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #67ff6b;
+    border-radius: 6px;
+    border: 3px solid var(--brand-dark); /* Creates a neat padding effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-neon-hover);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -34,11 +53,17 @@ html {
     font-family: 'Inter', sans-serif;
     color: var(--text-primary);
     background-color: var(--brand-dark);
+    scroll-snap-type: y mandatory;
 }
 
 body {
     overflow-x: hidden;
     line-height: 1.6;
+}
+
+.hero, .section, footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 h1,

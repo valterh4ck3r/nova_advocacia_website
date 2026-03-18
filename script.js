@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Topbar Scroll Effect
     const topbar = document.getElementById('topbar');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             topbar.classList.add('scrolled');
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     accordionHeaders.forEach(header => {
         header.addEventListener('click', () => {
             const currentlyActive = document.querySelector('.accordion-header[aria-expanded="true"]');
-            
+
             // Close currently active if it's not the clicked one
             if (currentlyActive && currentlyActive !== header) {
                 currentlyActive.setAttribute('aria-expanded', 'false');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isExpanded = header.getAttribute('aria-expanded') === 'true';
             header.setAttribute('aria-expanded', !isExpanded);
             const content = header.nextElementSibling;
-            
+
             if (!isExpanded) {
                 // Expanding
                 content.style.maxHeight = content.scrollHeight + "px";
@@ -59,24 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            
-            if (target) {
-                const headerOffset = 80;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-  
-                window.scrollTo({
-                     top: offsetPosition,
-                     behavior: "smooth"
-                });
-            }
-        });
-    });
 
     // Simple reveal animation on scroll (Intersection Observer)
     const observerOptions = {
@@ -103,27 +85,48 @@ document.addEventListener('DOMContentLoaded', () => {
         revealOnScroll.observe(section);
     });
 
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId !== "#") {
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+                    window.scrollTo({
+                         top: offsetPosition,
+                         behavior: "smooth"
+                    });
+                }
+            }
+        });
+    });
+
     // Floating Logo Parallax Effect
     const floatingLogo = document.getElementById('floating-logo');
-    
+
     if (floatingLogo) {
         let currentScroll = window.scrollY;
         let targetScroll = window.scrollY;
-        
+
         const updateLogoPosition = () => {
             targetScroll = window.scrollY;
-            
+
             // Fator de suavização - o quão rápido a logo alcança a tela
             const ease = 0.08;
-            
+
             currentScroll += (targetScroll - currentScroll) * ease;
-            
+
             // Atualizando a posição usando a rolagem real da página para compensar o position: absolute
             floatingLogo.style.transform = `translateY(calc(-50% + ${currentScroll}px))`;
-            
+
             requestAnimationFrame(updateLogoPosition);
         };
-        
+
         // Start loop
         updateLogoPosition();
     }
