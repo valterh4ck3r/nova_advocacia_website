@@ -102,4 +102,29 @@ document.addEventListener('DOMContentLoaded', () => {
         section.style.transition = 'all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)';
         revealOnScroll.observe(section);
     });
+
+    // Floating Logo Parallax Effect
+    const floatingLogo = document.getElementById('floating-logo');
+    
+    if (floatingLogo) {
+        let currentScroll = window.scrollY;
+        let targetScroll = window.scrollY;
+        
+        const updateLogoPosition = () => {
+            targetScroll = window.scrollY;
+            
+            // Fator de suavização - o quão rápido a logo alcança a tela
+            const ease = 0.08;
+            
+            currentScroll += (targetScroll - currentScroll) * ease;
+            
+            // Atualizando a posição usando a rolagem real da página para compensar o position: absolute
+            floatingLogo.style.transform = `translateY(calc(-50% + ${currentScroll}px))`;
+            
+            requestAnimationFrame(updateLogoPosition);
+        };
+        
+        // Start loop
+        updateLogoPosition();
+    }
 });
